@@ -1,58 +1,42 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const TOKEN_KEY = '@Aravo:token';
+const TOKEN_KEY = '@Aravo:accessToken';
+const REFRESH_TOKEN_KEY = '@Aravo:refreshToken';
 const LANGUAGE_KEY = '@Aravo:language';
 
-/**
- * Utilitário responsável pelo armazenamento seguro de dados locais.
- */
 export const StorageUtil = {
-  /**
-   * Salva o token JWT no dispositivo.
-   * @param {string} token - Token JWT retornado pelo backend.
-   */
   setToken: async (token: string): Promise<void> => {
-    try {
-      await AsyncStorage.setItem(TOKEN_KEY, token);
-    } catch (error) {
-      console.error('Erro ao salvar o token no storage:', error);
-    }
+    try { await AsyncStorage.setItem(TOKEN_KEY, token); } 
+    catch (e) { console.error('Erro ao salvar token', e); }
   },
 
-  /**
-   * Recupera o token JWT do dispositivo.
-   * @returns {Promise<string | null>} Token ou null se não existir.
-   */
   getToken: async (): Promise<string | null> => {
-    try {
-      return await AsyncStorage.getItem(TOKEN_KEY);
-    } catch (error) {
-      console.error('Erro ao recuperar o token do storage:', error);
-      return null;
-    }
+    try { return await AsyncStorage.getItem(TOKEN_KEY); } 
+    catch (e) { return null; }
   },
 
-  /**
-   * Remove o token JWT do dispositivo (utilizado no Logout).
-   */
-  clearToken: async (): Promise<void> => {
-    try {
-      await AsyncStorage.removeItem(TOKEN_KEY);
-    } catch (error) {
-      console.error('Erro ao limpar o token do storage:', error);
-    }
+  setRefreshToken: async (token: string): Promise<void> => {
+    try { await AsyncStorage.setItem(REFRESH_TOKEN_KEY, token); } 
+    catch (e) { console.error('Erro ao salvar refresh token', e); }
   },
 
-  /**
-   * Recupera o idioma preferido do usuário para enviar no Header da API.
-   * @returns {Promise<string>} 'pt-BR' ou 'en-US'. Padrão: 'pt-BR'.
-   */
+  getRefreshToken: async (): Promise<string | null> => {
+    try { return await AsyncStorage.getItem(REFRESH_TOKEN_KEY); } 
+    catch (e) { return null; }
+  },
+
+  clearTokens: async (): Promise<void> => {
+    try { await AsyncStorage.multiRemove([TOKEN_KEY, REFRESH_TOKEN_KEY]); } 
+    catch (e) { console.error('Erro ao limpar tokens', e); }
+  },
+
   getLanguage: async (): Promise<string> => {
-    try {
-      const lang = await AsyncStorage.getItem(LANGUAGE_KEY);
-      return lang || 'pt-BR'; // Fallback para o idioma padrão da API
-    } catch (error) {
-      return 'pt-BR';
-    }
+    try { return await AsyncStorage.getItem(LANGUAGE_KEY) || 'pt-BR'; } 
+    catch (e) { return 'pt-BR'; }
+  },
+
+  setLanguage: async (language: string): Promise<void> => {
+    try { await AsyncStorage.setItem(LANGUAGE_KEY, language); } 
+    catch (e) { console.error('Erro ao salvar idioma', e); }
   }
 };
