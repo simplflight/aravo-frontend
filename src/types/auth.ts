@@ -1,22 +1,21 @@
 /**
- * Interface que espelha o DTO UserResponse retornado por /api/users/me
+ * Interface que espelha o DTO UserResponse
  */
 export interface User {
   id: string; // UUID
-  name: string;
-  nickname: string;
   email: string;
-  role: string;
-  coins: number;
+  nickname: string;
+  name: string;
   points: number;
   totalPoints: number;
   streak: number;
-  bestStreak: number;
-  registrationYear: number;
+  highestStreak: number;
+  createdAt: string; // LocalDateTime formatado como string ISO-8601
+  lastActivityDate: string | null; // LocalDate formatado como string
 }
 
 /**
- * Interface que espelha o DTO TokenResponse retornado pelo login/refresh
+ * Interface que espelha o DTO TokenResponse
  */
 export interface TokenResponse {
   accessToken: string;
