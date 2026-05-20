@@ -1,10 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Colors } from '../../../constants/colors';
+import { TopBar } from '../../../components/Header/TopBar';
 
 export function HomeScreen() {
   return (
     <View style={styles.container}>
+      <TopBar />
       <Text>Home (Resumo Diário)</Text>
     </View>
   );

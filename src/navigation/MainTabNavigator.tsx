@@ -8,7 +8,6 @@ import { Colors } from '../constants/colors';
 // Importando as nossas telas placeholders
 import { HomeScreen } from '../features/home/screens/HomeScreen';
 import { ActivitiesScreen } from '../features/activities/screens/ActivitiesScreen';
-import { ShopScreen } from '../features/shop/screens/ShopScreen';
 import { ProfileScreen } from '../features/user/screens/ProfileScreen';
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
@@ -36,8 +35,6 @@ export function MainTabNavigator() {
             iconName = focused ? 'home' : 'home-outline';
           } else if (route.name === 'ActivitiesTab') {
             iconName = focused ? 'list' : 'list-outline';
-          } else if (route.name === 'ShopTab') {
-            iconName = focused ? 'cart' : 'cart-outline';
           } else if (route.name === 'ProfileTab') {
             iconName = focused ? 'person' : 'person-outline';
           }
@@ -55,11 +52,6 @@ export function MainTabNavigator() {
         name="ActivitiesTab" 
         component={ActivitiesScreen} 
         options={{ tabBarLabel: 'Atividades' }} 
-      />
-      <Tab.Screen 
-        name="ShopTab" 
-        component={ShopScreen} 
-        options={{ tabBarLabel: 'Loja' }} 
       />
       <Tab.Screen 
         name="ProfileTab" 

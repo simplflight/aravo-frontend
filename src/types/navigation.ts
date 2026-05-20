@@ -1,5 +1,3 @@
-import { NavigatorScreenParams } from '@react-navigation/native';
-
 // 1. Rotas Públicas
 export type AuthStackParamList = {
   Login: undefined;
@@ -10,7 +8,6 @@ export type AuthStackParamList = {
 export type MainTabParamList = {
   HomeTab: undefined;
   ActivitiesTab: undefined;
-  ShopTab: undefined;
   ProfileTab: undefined;
 };
 
@@ -21,4 +18,5 @@ export type AppStackParamList = {
   CreateActivity: undefined;
   ActiveFocus: { activityId: string }; // <--- TELA DO CRONÔMETRO
   CompleteActivity: { activityId: string }; // <--- TELA DO FORMULÁRIO FINAL
+  Shop: undefined;
 };

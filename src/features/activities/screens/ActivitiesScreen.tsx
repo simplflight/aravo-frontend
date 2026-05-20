@@ -8,6 +8,7 @@ import { Activity } from '../../../types/activity';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AppStackParamList } from '../../../types/navigation';
+import { TopBar } from '../../../components/Header/TopBar';
 
 export function ActivitiesScreen() {
   const { data: activities, isLoading, isError, refetch, isRefetching } = useActivities();
@@ -31,6 +32,7 @@ export function ActivitiesScreen() {
 
   return (
     <View style={styles.container}>
+      <TopBar />
       <View style={styles.header}>
         <Text style={styles.title}>O Meu Foco</Text>
         <TouchableOpacity onPress={() => navigation.navigate('CreateActivity')} style={styles.addButton}>
@@ -77,7 +79,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between', 
     alignItems: 'center', 
     paddingHorizontal: 24, 
-    paddingTop: 48, 
+    paddingTop: 16, 
     paddingBottom: 16 
   },
   addButton: { 

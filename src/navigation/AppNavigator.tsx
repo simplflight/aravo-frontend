@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { CreateActivityScreen } from '../features/activities/screens/CreateActivityScreen';
 import { ActiveFocusScreen } from '../features/activities/screens/ActiveFocusScreen';
 import { CompleteActivityScreen } from '../features/activities/screens/CompleteActivityScreen';
+import { ShopScreen } from '../features/shop/screens/ShopScreen';
 import { AppStackParamList } from '../types/navigation';
 import { MainTabNavigator } from './MainTabNavigator';
 import { View, Text } from 'react-native';
@@ -29,6 +30,7 @@ export function AppNavigator() {
 
       <Stack.Screen name="ActiveFocus" component={ActiveFocusScreen} />
       <Stack.Screen name="CompleteActivity" component={CompleteActivityScreen} />
+      <Stack.Screen name="Shop" component={ShopScreen} />
     </Stack.Navigator>
   );
 }
