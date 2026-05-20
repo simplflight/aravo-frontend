@@ -6,7 +6,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { AppStackParamList } from '../../../types/navigation';
 import { activitiesApi } from '../api/activitiesApi';
-import { ActivityCompleteRequest } from '../../../types/activity';
+import { ActivityCompleteRequest, Activity } from '../../../types/activity';
+import { useAuthStore } from '../../../store/useAuthStore';
+
 import { Input } from '../../../components/Input/Input';
 import { Button } from '../../../components/Button/Button';
 import { Colors } from '../../../constants/colors';
@@ -20,16 +22,29 @@ export function CompleteActivityScreen() {
   const queryClient = useQueryClient();
   const { activityId } = route.params;
 
+  // Trazemos o utilizador e a função de atualizar do nosso Zustand
+  const user = useAuthStore((state) => state.user);
+  const setUser = useAuthStore((state) => state.setUser);
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [error, setError] = useState<string>();
 
-  // Mutação do TanStack Query para finalizar
-  const { mutateAsync: completeActivity, isPending } = useMutation({
-    mutationFn: (payload: ActivityCompleteRequest) => activitiesApi.completeActivity(activityId, payload),
-    onSuccess: () => {
-      // Invalida a lista para forçar o recarregamento na tela inicial
+  // Mutação tipada que agora recebe a resposta (Activity) no onSuccess
+  const { mutateAsync: completeActivity, isPending } = useMutation<Activity, Error, ActivityCompleteRequest>({
+    mutationFn: (payload) => activitiesApi.completeActivity(activityId, payload),
+    onSuccess: (completedActivity) => {
+      // 1. Invalida a lista para forçar o recarregamento na tela de atividades
       queryClient.invalidateQueries({ queryKey: ['activities'] });
+
+      // 2. A MÁGICA DO XP: Soma os pontos ganhos ao saldo atual no Zustand!
+      if (user && completedActivity.pointsEarned) {
+        setUser({
+          ...user,
+          points: user.points + completedActivity.pointsEarned,
+          totalPoints: user.totalPoints + completedActivity.pointsEarned,
+        });
+      }
     }
   });
 
