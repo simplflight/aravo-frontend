@@ -12,7 +12,7 @@ export const activitiesApi = {
    */
   createActivity: async (category: ActivityCategory): Promise<Activity> => {
     // Presumindo que o DTO ActivityRequest exija o campo 'category'
-    const { data } = await api.post<Activity>('/activities', { category });
+    const { data } = await api.post<Activity>('/activities/start', { category });
     return data;
   },
 };
