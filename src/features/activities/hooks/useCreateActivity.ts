@@ -1,15 +1,16 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { activitiesApi } from '../api/activitiesApi';
-import { ActivityCategory } from '../../../types/activity';
+import { Activity, ActivityCategory } from '../../../types/activity';
 
 export function useCreateActivity() {
   const queryClient = useQueryClient();
 
-  return useMutation({
-    mutationFn: (category: ActivityCategory) => activitiesApi.createActivity(category),
+  // Passamos explicitamente os tipos: 
+  // 1º Dado retornado (Activity) | 2º Tipo do Erro (Error) | 3º Variável de entrada (ActivityCategory)
+  return useMutation<Activity, Error, ActivityCategory>({
+    mutationFn: (category: ActivityCategory) => activitiesApi.startActivity(category),
     onSuccess: () => {
-      // A mágica acontece aqui: ao criar com sucesso, dizemos ao React Query
-      // que a lista 'activities' ficou velha. Ele fará o fetch automático e a lista na tela será atualizada!
+      // Invalida o cache para atualizar a lista automaticamente
       queryClient.invalidateQueries({ queryKey: ['activities'] });
     },
   });

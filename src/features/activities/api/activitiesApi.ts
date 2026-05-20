@@ -1,5 +1,5 @@
 import { api } from '../../../config/api';
-import { Activity, ActivityCategory } from '../../../types/activity';
+import { Activity, ActivityCategory, ActivityCompleteRequest } from '../../../types/activity';
 
 export const activitiesApi = {
   getUserActivities: async (): Promise<Activity[]> => {
@@ -7,12 +7,15 @@ export const activitiesApi = {
     return data;
   },
 
-  /**
-   * Inicia uma nova atividade.
-   */
-  createActivity: async (category: ActivityCategory): Promise<Activity> => {
-    // Presumindo que o DTO ActivityRequest exija o campo 'category'
+  startActivity: async (category: ActivityCategory): Promise<Activity> => {
+    // Atualizado para a nova rota /start
     const { data } = await api.post<Activity>('/activities/start', { category });
     return data;
   },
+
+  completeActivity: async (id: string, payload: ActivityCompleteRequest): Promise<Activity> => {
+    // Nova rota de conclusão
+    const { data } = await api.post<Activity>(`/activities/${id}/complete`, payload);
+    return data;
+  }
 };

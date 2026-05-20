@@ -12,4 +12,11 @@ export interface Activity {
   startTime: string; // LocalDateTime string
   endTime: string | null; // Pode ser null se a atividade estiver IN_PROGRESS
   pointsEarned: number | null;
+  title?: string | null; 
+  description?: string | null;
+}
+
+export interface ActivityCompleteRequest {
+  title: string;
+  description?: string;
 }

@@ -1,6 +1,8 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { CreateActivityScreen } from '../features/activities/screens/CreateActivityScreen';
+import { ActiveFocusScreen } from '../features/activities/screens/ActiveFocusScreen';
+import { CompleteActivityScreen } from '../features/activities/screens/CompleteActivityScreen';
 import { AppStackParamList } from '../types/navigation';
 import { MainTabNavigator } from './MainTabNavigator';
 import { View, Text } from 'react-native';
@@ -24,6 +26,9 @@ export function AppNavigator() {
         component={CreateActivityScreen} 
         options={{ presentation: 'modal' }} // Faz a tela subir de baixo (Modal)
       />
+
+      <Stack.Screen name="ActiveFocus" component={ActiveFocusScreen} />
+      <Stack.Screen name="CompleteActivity" component={CompleteActivityScreen} />
     </Stack.Navigator>
   );
 }
