@@ -1,17 +1,22 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AppStackParamList } from '../types/navigation';
+import { MainTabNavigator } from './MainTabNavigator';
 import { View, Text } from 'react-native';
 
 const Stack = createNativeStackNavigator<AppStackParamList>();
 
-// Placeholder temporário
-const HomeScreen = () => <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Text>Home (Protegida)</Text></View>;
+// Placeholder para futuras telas que abrem por cima das abas
+const ActivityDetailsPlaceholder = () => <View><Text>Detalhes</Text></View>;
 
 export function AppNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Home" component={HomeScreen} />
+      {/* A tela principal agora é o navegador de abas */}
+      <Stack.Screen name="MainTabs" component={MainTabNavigator} />
+      
+      {/* Telas complementares do app */}
+      <Stack.Screen name="ActivityDetails" component={ActivityDetailsPlaceholder} />
     </Stack.Navigator>
   );
 }
