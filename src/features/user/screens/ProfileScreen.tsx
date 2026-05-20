@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Alert, Platform } from 'react-native';
 import { useAuthStore } from '../../../store/useAuthStore';
 import { TopBar } from '../../../components/Header/TopBar';
 import { Button } from '../../../components/Button/Button';
@@ -21,22 +21,29 @@ export function ProfileScreen() {
   };
 
   const handleLogout = () => {
-    Alert.alert(
-      "Sair da conta",
-      "Tem a certeza que deseja sair do Aravo?",
-      [
-        { text: "Cancelar", style: "cancel" },
-        { 
-          text: "Sair", 
-          style: "destructive", 
-          onPress: async () => {
-            await logout();
-            // O RootNavigator vai detetar que user ficou null e vai atirar o utilizador 
-            // de volta para o Ecrã de Login automaticamente!
-          } 
-        }
-      ]
-    );
+    // SE ESTIVER NA WEB: Usa o confirm do próprio navegador
+    if (Platform.OS === 'web') {
+      const confirmed = window.confirm("Tem a certeza que deseja sair do Aravo?");
+      if (confirmed) {
+        logout();
+      }
+    } else {
+      // SE ESTIVER NO MOBILE (Android/iOS): Usa o Alerta nativo lindão
+      Alert.alert(
+        "Sair da conta",
+        "Tem a certeza que deseja sair do Aravo?",
+        [
+          { text: "Cancelar", style: "cancel" },
+          { 
+            text: "Sair", 
+            style: "destructive", 
+            onPress: async () => {
+              await logout();
+            } 
+          }
+        ]
+      );
+    }
   };
 
   return (
