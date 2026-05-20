@@ -65,7 +65,7 @@ export function LoginScreen() {
       // 1. Requisita os tokens
       // O DTO do backend v1.1.0 (UserLoginRequest) espera { email, password }
       const { data: tokens } = await api.post<TokenResponse>('/users/login', {
-        email,
+        identifier: email, 
         password,
       });
 

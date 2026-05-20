@@ -69,7 +69,7 @@ export function RegisterScreen() {
 
       // 2. Auto-Login UX: Autentica silenciosamente para poupar trabalho ao utilizador
       const { data: tokens } = await api.post<TokenResponse>('/users/login', {
-        email,
+        identifier: email, 
         password,
       });
 
