@@ -1,10 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  ScrollView, 
-  TouchableOpacity 
+  View, Text, StyleSheet, ScrollView, ActivityIndicator 
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -14,78 +10,95 @@ import { useAuthStore } from '../../../store/useAuthStore';
 import { TopBar } from '../../../components/Header/TopBar';
 import { Button } from '../../../components/Button/Button';
 import { Colors } from '../../../constants/colors';
-
-type HomeScreenNavProp = NativeStackNavigationProp<AppStackParamList>;
+import { useStreakCalendar } from '../hooks/useStreakCalendar';
 
 export function HomeScreen() {
   const user = useAuthStore((state) => state.user);
-  const navigation = useNavigation<HomeScreenNavProp>();
+  const navigation = useNavigation<NativeStackNavigationProp<AppStackParamList>>();
+
+  // Obtém o mês e o ano atuais
+  const todayDate = new Date();
+  const currentMonth = todayDate.getMonth() + 1;
+  const currentYear = todayDate.getFullYear();
+
+  // Chama o nosso hook inteligente
+  const { data: streakData, isLoading } = useStreakCalendar(currentMonth, currentYear);
+
+  // Algoritmo que constrói os últimos 7 dias baseados na resposta da API
+  const weekDays = useMemo(() => {
+    const days = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      
+      const dateStr = d.toISOString().split('T')[0]; // "YYYY-MM-DD"
+      // Pega a primeira letra do dia da semana (S, T, Q...)
+      const dayName = d.toLocaleDateString('pt-BR', { weekday: 'short' }).charAt(0).toUpperCase();
+
+      // Procura se o utilizador fez algo neste dia através do histórico da API
+      const record = streakData?.history.find(r => r.date === dateStr);
+      
+      days.push({ 
+        day: dayName, 
+        isCompleted: record?.status === 'COMPLETED',
+        isFrozen: record?.status === 'FROZEN'
+      });
+    }
+    return days;
+  }, [streakData]);
 
   if (!user) return null;
 
-  // Mock temporário para os dias da semana (no futuro puxaremos do histórico do backend)
-  const weekDays = [
-    { day: 'S', active: true },
-    { day: 'T', active: true },
-    { day: 'Q', active: true }, // Hoje
-    { day: 'Q', active: false },
-    { day: 'S', active: false },
-    { day: 'S', active: false },
-    { day: 'D', active: false },
-  ];
-
-  // Mock para as missões diárias
+  // Mock provisório para as missões (conforme solicitado)
   const dailyQuests = [
-    { id: 1, title: 'Primeiro Passo', desc: 'Inicie 1 sessão de foco hoje', progress: 1, total: 1, xp: 15 },
-    { id: 2, title: 'Mestre do Estudo', desc: 'Foque por 45 minutos acumulados', progress: 15, total: 45, xp: 30 },
-    { id: 3, title: 'Consistência Brutal', desc: 'Ganhe 50 XP no total hoje', progress: 20, total: 50, xp: 50 },
+    { id: 1, title: 'Primeiro Passo', desc: 'Inicie 1 sessão de foco hoje', progress: 0, total: 1, xp: 15 },
+    { id: 2, title: 'Consistência Brutal', desc: 'Ganhe 50 XP no total hoje', progress: 20, total: 50, xp: 50 },
   ];
 
   return (
     <View style={styles.container}>
-      {/* A nossa barra superior mágica fixa no topo */}
       <TopBar />
 
-      {/* Todo o conteúdo envelopado em ScrollView para nunca quebrar o layout */}
-      <ScrollView 
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
-      >
-        {/* Bloco de Boas-Vindas */}
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
+        
         <View style={styles.welcomeSection}>
           <Text style={styles.welcomeText}>Olá, {user.name.split(' ')[0]}! 👋</Text>
-          <Text style={styles.subtitle}>Sua meta diária está quase completa hoje.</Text>
+          <Text style={styles.subtitle}>Pronto para manter a sua ofensiva?</Text>
         </View>
 
-        {/* Seção 1: Ofensiva Semanal (Estilo Duolingo) */}
+        {/* Bloco Dinâmico do Calendário */}
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>Sua Semana</Text>
-          <View style={styles.weekContainer}>
-            {weekDays.map((item, index) => (
-              <View key={index} style={styles.dayWrapper}>
-                <View style={[
-                  styles.dayCircle, 
-                  item.active ? styles.dayCircleActive : styles.dayCircleInactive
-                ]}>
-                  <Text style={[
-                    styles.dayText, 
-                    item.active ? styles.dayTextActive : styles.dayTextInactive
-                  ]}>
-                    {item.active ? '🔥' : item.day}
-                  </Text>
-                </View>
-                <Text style={styles.dayLabel}>{item.day}</Text>
-              </View>
-            ))}
-          </View>
+          <Text style={styles.cardTitle}>Últimos 7 dias</Text>
+          
+          {isLoading ? (
+            <ActivityIndicator size="small" color={Colors.primary} style={{ marginVertical: 16 }}/>
+          ) : (
+            <View style={styles.weekContainer}>
+              {weekDays.map((item, index) => {
+                const isActive = item.isCompleted || item.isFrozen;
+                return (
+                  <View key={index} style={styles.dayWrapper}>
+                    <View style={[
+                      styles.dayCircle, 
+                      item.isCompleted && styles.dayCircleCompleted,
+                      item.isFrozen && styles.dayCircleFrozen,
+                      !isActive && styles.dayCircleInactive
+                    ]}>
+                      <Text style={[styles.dayText, isActive ? styles.dayTextActive : styles.dayTextInactive]}>
+                        {item.isCompleted ? '🔥' : item.isFrozen ? '🧊' : item.day}
+                      </Text>
+                    </View>
+                    <Text style={styles.dayLabel}>{item.day}</Text>
+                  </View>
+                );
+              })}
+            </View>
+          )}
         </View>
 
-        {/* Seção 2: Missões Diárias (Daily Quests) */}
         <Text style={styles.sectionTitle}>Missões de Hoje</Text>
         {dailyQuests.map((quest) => {
           const percentage = (quest.progress / quest.total) * 100;
-          const isCompleted = quest.progress >= quest.total;
-
           return (
             <View key={quest.id} style={styles.questCard}>
               <View style={styles.questHeader}>
@@ -93,32 +106,23 @@ export function HomeScreen() {
                   <Text style={styles.questTitle}>{quest.title}</Text>
                   <Text style={styles.questDesc}>{quest.desc}</Text>
                 </View>
-                <View style={styles.xpBadge}>
-                  <Text style={styles.xpText}>+{quest.xp} XP</Text>
-                </View>
+                <View style={styles.xpBadge}><Text style={styles.xpText}>+{quest.xp} XP</Text></View>
               </View>
-
-              {/* Barra de Progresso */}
               <View style={styles.progressBackground}>
                 <View style={[styles.progressFill, { width: `${percentage}%` }]} />
               </View>
-              
-              <Text style={styles.progressText}>
-                {isCompleted ? '🎉 Concluída!' : `${quest.progress}/${quest.total}`}
-              </Text>
+              <Text style={styles.progressText}>{quest.progress}/{quest.total}</Text>
             </View>
           );
         })}
 
-        {/* Seção 3: Call To Action Centralizado */}
         <View style={styles.ctaContainer}>
           <Button 
-            title="🔥 Iniciar Nova Sessão de Foco"
+            title="🔥 Iniciar Nova Sessão"
             onPress={() => navigation.navigate('CreateActivity')}
             style={styles.ctaButton}
           />
         </View>
-
       </ScrollView>
     </View>
   );
@@ -269,5 +273,15 @@ const styles = StyleSheet.create({
   ctaButton: {
     height: 54,
     borderRadius: 12,
+  },
+  dayCircleCompleted: { 
+    backgroundColor: '#FFEAA7', 
+    borderWidth: 1, 
+    borderColor: '#F1C40F' 
+  }, 
+  dayCircleFrozen: { 
+    backgroundColor: '#E0F7FA', 
+    borderWidth: 1, 
+    borderColor: '#00BCD4' 
   },
 });
