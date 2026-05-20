@@ -1,5 +1,6 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { CreateActivityScreen } from '../features/activities/screens/CreateActivityScreen';
 import { AppStackParamList } from '../types/navigation';
 import { MainTabNavigator } from './MainTabNavigator';
 import { View, Text } from 'react-native';
@@ -17,6 +18,12 @@ export function AppNavigator() {
       
       {/* Telas complementares do app */}
       <Stack.Screen name="ActivityDetails" component={ActivityDetailsPlaceholder} />
+
+      <Stack.Screen 
+        name="CreateActivity" 
+        component={CreateActivityScreen} 
+        options={{ presentation: 'modal' }} // Faz a tela subir de baixo (Modal)
+      />
     </Stack.Navigator>
   );
 }

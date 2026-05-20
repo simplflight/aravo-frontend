@@ -1,13 +1,17 @@
 import React from 'react';
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import { useActivities } from '../hooks/useActivities';
 import { ActivityCard } from '../components/ActivityCard';
 import { Colors } from '../../../constants/colors';
 import { Activity } from '../../../types/activity';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { AppStackParamList } from '../../../types/navigation';
 
 export function ActivitiesScreen() {
   const { data: activities, isLoading, isError, refetch, isRefetching } = useActivities();
+  const navigation = useNavigation<NativeStackNavigationProp<AppStackParamList>>();
 
   if (isLoading) {
     return (
@@ -27,7 +31,12 @@ export function ActivitiesScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>O Meu Foco</Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>O Meu Foco</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('CreateActivity')} style={styles.addButton}>
+          <Text style={styles.addButtonText}>+ Nova</Text>
+        </TouchableOpacity>
+      </View>
       
       <FlashList<Activity>
         data={activities}
@@ -61,9 +70,25 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
     color: Colors.text,
-    paddingHorizontal: 24,
-    paddingTop: 48,
-    paddingBottom: 16,
+    // Os paddings foram removidos daqui, pois o 'header' já faz esse trabalho!
+  },
+  header: { 
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
+    alignItems: 'center', 
+    paddingHorizontal: 24, 
+    paddingTop: 48, 
+    paddingBottom: 16 
+  },
+  addButton: { 
+    backgroundColor: Colors.primary, 
+    paddingHorizontal: 16, 
+    paddingVertical: 8, 
+    borderRadius: 20 
+  },
+  addButtonText: { 
+    color: Colors.surface, 
+    fontWeight: 'bold' 
   },
   listContent: {
     paddingHorizontal: 24,

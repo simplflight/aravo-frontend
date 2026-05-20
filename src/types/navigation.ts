@@ -20,4 +20,5 @@ export type AppStackParamList = {
   MainTabs: NavigatorScreenParams<MainTabParamList>; 
   // Telas que abrem por cima das abas (ex: Detalhes de uma atividade, Pomodoro rodando)
   ActivityDetails: { activityId: string }; 
+  CreateActivity: undefined;
 };
