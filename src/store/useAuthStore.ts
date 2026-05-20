@@ -5,6 +5,7 @@ import { User, TokenResponse } from '../types/auth';
 interface AuthState {
   user: User | null;
   accessToken: string | null;
+  refreshToken: string | null;
   isLoading: boolean;
   
   // Ações
@@ -22,12 +23,18 @@ interface AuthState {
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   accessToken: null,
+  refreshToken: null,
   isLoading: true, // Começa carregando para a Splash Screen
 
   authenticate: async (tokens, user) => {
     await StorageUtil.setToken(tokens.accessToken);
     await StorageUtil.setRefreshToken(tokens.refreshToken);
-    set({ user, accessToken: tokens.accessToken });
+    
+    set({ 
+      user, 
+      accessToken: tokens.accessToken, 
+      refreshToken: tokens.refreshToken 
+    });
   },
 
   setUser: (user) => {
@@ -41,7 +48,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   logout: async () => {
     await StorageUtil.clearTokens();
-    set({ user: null, accessToken: null });
+    set({ user: null, accessToken: null, refreshToken: null });
   },
 
   setLoading: (status) => {
