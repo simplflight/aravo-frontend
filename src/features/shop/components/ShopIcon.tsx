@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '../../../constants/colors';
 
@@ -10,46 +10,45 @@ interface ShopIconProps {
 }
 
 /**
- * Padrão Icon Mapper: Transforma chaves de texto da API em componentes visuais nativos.
+ * Padrão Icon Mapper: Lê o "iconKey" do backend e renderiza o SVG correspondente.
  */
 export function ShopIcon({ iconKey, size = 40, grayscale = false }: ShopIconProps) {
+  // Se o utilizador não tiver pontos suficientes, o ícone fica com a cor de texto secundário (cinza)
   const color = grayscale ? Colors.textSecondary : Colors.primary;
 
-  // 1. Verificamos se é um ícone mapeado na nossa biblioteca do Ionicons
-  const isIonicons = [
-    'shield-check', 'flame', 'potion', 'zap', 'cart', 'star', 'snow'
-  ].includes(iconKey);
+  let mappedName: keyof typeof Ionicons.glyphMap | null = null;
 
-  if (isIonicons) {
-    // Fazemos um de-para seguro para os nomes exatos do Ionicons
-    let mappedName: keyof typeof Ionicons.glyphMap = 'help-circle';
-    
-    if (iconKey === 'shield-check') mappedName = 'shield-checkmark';
-    if (iconKey === 'flame') mappedName = 'flame';
-    if (iconKey === 'potion') mappedName = 'flask'; // Aproximação
-    if (iconKey === 'zap') mappedName = 'flash';
-    if (iconKey === 'snow') mappedName = 'snow';
+  // De-Para: String do Backend -> Ícone do Expo
+  switch (iconKey) {
+    case 'ic_streak_freeze':
+      mappedName = 'snow'; // Um floco de neve representa perfeitamente o "Freeze"
+      break;
+    case 'ic_xp_boost':
+      mappedName = 'flash'; // Um raio representa o "Boost" de energia/XP
+      break;
+  }
 
+  if (mappedName) {
     return <Ionicons name={mappedName} size={size} color={color} />;
   }
 
-  // 2. Se não for um ícone vetorial conhecido, assumimos que o backend mandou um Emoji puro (ex: ❄️)
+  // Fallback de segurança: Se o backend mandar um ícone novo que o frontend ainda não conhece
   return (
-    <Text style={[
-      styles.emoji, 
-      { fontSize: size },
-      grayscale && styles.grayscaleEmoji
-    ]}>
-      {iconKey}
-    </Text>
+    <View style={styles.fallbackContainer}>
+      <Text style={[styles.fallbackEmoji, grayscale && styles.grayscaleEmoji]}>📦</Text>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  emoji: {
-    textAlign: 'center',
+  fallbackContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  fallbackEmoji: {
+    fontSize: 24,
   },
   grayscaleEmoji: {
-    opacity: 0.4, // O efeito visual mais próximo de grayscale num Emoji nativo do OS
+    opacity: 0.4,
   }
 });
