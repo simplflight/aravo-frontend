@@ -19,4 +19,5 @@ export type AppStackParamList = {
   ActiveFocus: { activityId: string }; // <--- TELA DO CRONÔMETRO
   CompleteActivity: { activityId: string }; // <--- TELA DO FORMULÁRIO FINAL
   Shop: undefined;
+  EditProfile: undefined;
 };

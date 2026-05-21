@@ -4,8 +4,13 @@ import { useAuthStore } from '../../../store/useAuthStore';
 import { TopBar } from '../../../components/Header/TopBar';
 import { Button } from '../../../components/Button/Button';
 import { Colors } from '../../../constants/colors';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { AppStackParamList } from '../../../types/navigation';
 
 export function ProfileScreen() {
+  const navigation = useNavigation<NativeStackNavigationProp<AppStackParamList>>();
+
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
 
@@ -86,7 +91,7 @@ export function ProfileScreen() {
           <Button 
             title="Editar Perfil" 
             variant="outline" 
-            onPress={() => Alert.alert('Em breve', 'Funcionalidade em desenvolvimento!')} 
+            onPress={() => navigation.navigate('EditProfile')} // Redireciona para o modal real!
             style={styles.actionButton}
           />
 

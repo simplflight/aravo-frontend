@@ -21,3 +21,11 @@ export interface TokenResponse {
   accessToken: string;
   refreshToken: string;
 }
+
+/**
+ * DTO que espelha o UserUpdateRequest do Java.
+ */
+export interface UserUpdateRequest {
+  name: string;
+  nickname: string;
+}
