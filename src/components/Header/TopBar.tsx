@@ -5,7 +5,7 @@ import {
   StyleSheet, 
   TouchableOpacity, 
   Modal, 
-  TouchableWithoutFeedback,
+  Pressable,
   Platform
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -57,9 +57,9 @@ export function TopBar() {
 
       {/* Modal Dropdown Transparente */}
       <Modal visible={menuVisible} transparent animationType="fade">
-        <TouchableWithoutFeedback onPress={() => setMenuVisible(false)}>
+        <Pressable onPress={() => setMenuVisible(false)}>
           <View style={styles.modalOverlay}>
-            <TouchableWithoutFeedback>
+            <Pressable>
               <View style={[styles.dropdown, { top: Math.max(insets.top, 16) + 50 }]}>
                 <TouchableOpacity style={styles.dropdownItem} onPress={handleOpenShop}>
                   <Text style={styles.dropdownIcon}>🛒</Text>
@@ -67,9 +67,9 @@ export function TopBar() {
                 </TouchableOpacity>
                 {/* Aqui poderemos adicionar Ranking, Conquistas, etc no futuro */}
               </View>
-            </TouchableWithoutFeedback>
+            </Pressable>
           </View>
-        </TouchableWithoutFeedback>
+        </Pressable>
       </Modal>
 
     </View>

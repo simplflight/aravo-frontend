@@ -5,7 +5,7 @@ import {
   StyleSheet, 
   KeyboardAvoidingView, 
   Platform, 
-  TouchableWithoutFeedback, 
+  Pressable, 
   Keyboard 
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -94,7 +94,7 @@ export function LoginScreen() {
       style={styles.container} 
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <Pressable onPress={Keyboard.dismiss}>
         <View style={styles.inner}>
           
           <View style={styles.header}>
@@ -143,7 +143,7 @@ export function LoginScreen() {
           </View>
 
         </View>
-      </TouchableWithoutFeedback>
+      </Pressable>
     </KeyboardAvoidingView>
   );
 }
