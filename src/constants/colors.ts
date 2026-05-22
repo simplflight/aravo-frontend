@@ -12,4 +12,13 @@ export const Colors = {
   error: '#D63031', // Vermelho para mensagens de erro da API
   border: '#DFE6E9', // Bordas sutis
   success: '#00B894', // Verde para sucesso
+  status: {
+    successBg: '#E3FBE3',
+    inProgressBg: '#E0E7FF',
+    errorBg: '#FFEBEB',
+    warningBg: '#FFEAA7',
+    warningBorder: '#F1C40F',
+    infoBg: '#E0F7FA',
+    infoBorder: '#00BCD4',
+  }
 };

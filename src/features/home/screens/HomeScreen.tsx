@@ -188,9 +188,9 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   dayCircleActive: {
-    backgroundColor: '#FFEAA7', // Fundo dourado suave para o fogo aceso
+    backgroundColor: Colors.status.warningBg, // Fundo dourado suave para o fogo aceso
     borderWidth: 1,
-    borderColor: '#F1C40F',
+    borderColor: Colors.status.warningBorder,
   },
   dayCircleInactive: {
     backgroundColor: Colors.background,
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     paddingRight: 8,
   },
   xpBadge: {
-    backgroundColor: '#E0E7FF',
+    backgroundColor: Colors.status.inProgressBg,
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 12,
@@ -282,13 +282,13 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   dayCircleCompleted: { 
-    backgroundColor: '#FFEAA7', 
+    backgroundColor: Colors.status.warningBg, 
     borderWidth: 1, 
-    borderColor: '#F1C40F' 
+    borderColor: Colors.status.warningBorder 
   }, 
   dayCircleFrozen: { 
-    backgroundColor: '#E0F7FA', 
+    backgroundColor: Colors.status.infoBg, 
     borderWidth: 1, 
-    borderColor: '#00BCD4' 
+    borderColor: Colors.status.infoBorder
   },
 });
