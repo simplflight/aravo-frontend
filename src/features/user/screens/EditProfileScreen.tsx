@@ -2,19 +2,19 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Keyboard, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-
 import { AppStackParamList } from '../../../types/navigation';
 import { useAuthStore } from '../../../store/useAuthStore';
 import { useUpdateProfile } from '../hooks/useUpdateProfile';
-
 import { Input } from '../../../components/Input/Input';
 import { Button } from '../../../components/Button/Button';
 import { Colors } from '../../../constants/colors';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export function EditProfileScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<AppStackParamList>>();
   const user = useAuthStore((state) => state.user);
   const { mutateAsync: updateProfile, isPending } = useUpdateProfile();
+  const insets = useSafeAreaInsets();
 
   if (!user) return null;
 
@@ -50,7 +50,7 @@ export function EditProfileScreen() {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
+    <ScrollView contentContainerStyle={[styles.container, { paddingBottom: 8 + insets.bottom}]} keyboardShouldPersistTaps="handled">
       <Text style={styles.title}>Editar Perfil</Text>
       <Text style={styles.subtitle}>Atualize os seus dados de identificação do Aravo.</Text>
 

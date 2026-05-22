@@ -2,20 +2,19 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Alert } from 'react-native';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { useNavigation } from '@react-navigation/native';
-
 import { shopApi } from '../api/shopApi';
 import { useAuthStore } from '../../../store/useAuthStore';
 import { Item } from '../../../types/shop';
-
 import { ShopIcon } from '../components/ShopIcon';
 import { Button } from '../../../components/Button/Button';
 import { Colors } from '../../../constants/colors';
 import { TopBar } from '../../../components/Header/TopBar'; // Reaproveitamos a barra para mostrar o XP!
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export function ShopScreen() {
   const user = useAuthStore((state) => state.user);
   const setUser = useAuthStore((state) => state.setUser);
-  const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
 
   const [buyingId, setBuyingId] = useState<string | null>(null);
 
@@ -74,7 +73,7 @@ export function ShopScreen() {
         <FlatList
           data={items}
           keyExtractor={(item) => item.id}
-          contentContainerStyle={styles.listContent}
+          contentContainerStyle={[styles.listContent, { paddingBottom: 40 + insets.bottom }]}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => {
             const canAfford = user.points >= item.price;
