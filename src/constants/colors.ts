@@ -20,5 +20,7 @@ export const Colors = {
     warningBorder: '#F1C40F',
     infoBg: '#E0F7FA',
     infoBorder: '#00BCD4',
+    disabledBg: '#F8F9FA',
+    disabledBorder: '#E9ECEF'
   }
 };
