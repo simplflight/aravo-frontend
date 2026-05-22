@@ -16,18 +16,17 @@ export function RootNavigator() {
         const token = await StorageUtil.getToken();
         
         if (token) {
-          // Injetamos o token silenciosamente para a API conseguir fazer a requisição
+          // Injeta o token silenciosamente para a API conseguir fazer a requisição
           useAuthStore.setState({ accessToken: token });
           
-          // Validamos a sessão e buscamos os dados do utilizador
+          // Valida a sessão e busca os dados do utilizador
           const { data } = await api.get('/users/me');
           setUser(data);
         }
       } catch (error) {
-        // Se der erro 401, o nosso interceptor do Axios já vai tratar de fazer o clearTokens
+        // Se der erro 401, o interceptor do Axios já vai tratar de fazer o clearTokens
         console.log('Sessão inválida ou não encontrada na inicialização.');
       } finally {
-        // A app pode finalmente esconder o "Splash Screen" virtual
         setLoading(false);
       }
     };

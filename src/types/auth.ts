@@ -23,7 +23,7 @@ export interface TokenResponse {
 }
 
 /**
- * DTO que espelha o UserUpdateRequest do Java.
+ * DTO que espelha o UserUpdateRequest
  */
 export interface UserUpdateRequest {
   name: string;

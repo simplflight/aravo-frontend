@@ -5,7 +5,6 @@ import { MainTabParamList } from '../types/navigation';
 import { Colors } from '../constants/colors';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-// Importando as nossas telas placeholders
 import { HomeScreen } from '../features/home/screens/HomeScreen';
 import { ActivitiesScreen } from '../features/activities/screens/ActivitiesScreen';
 import { ProfileScreen } from '../features/user/screens/ProfileScreen';
@@ -18,7 +17,7 @@ export function MainTabNavigator() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        headerShown: false, // Escondemos o cabeçalho padrão para criarmos o nosso no futuro
+        headerShown: false, // Esconde o cabeçalho padrão
         tabBarActiveTintColor: Colors.primary,
         tabBarInactiveTintColor: Colors.textSecondary,
         tabBarStyle: {

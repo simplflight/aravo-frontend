@@ -1,23 +1,23 @@
-// 1. Rotas Públicas
+// Rotas Públicas
 export type AuthStackParamList = {
   Login: undefined;
   Register: undefined;
 };
 
-// 2. Rotas das Abas Inferiores (Bottom Tabs)
+// Rotas das Abas Inferiores (Bottom Tabs)
 export type MainTabParamList = {
   HomeTab: undefined;
   ActivitiesTab: undefined;
   ProfileTab: undefined;
 };
 
-// 3. Rotas Privadas Globais (O Stack que engloba as abas e as telas em tela cheia)
+// Rotas Privadas Globais (O Stack que engloba as abas e as telas em tela cheia)
 export type AppStackParamList = {
-  MainTabs: undefined; // Simplificado por enquanto
+  MainTabs: undefined;
   ActivityDetails: { activityId: string }; 
   CreateActivity: undefined;
-  ActiveFocus: { activityId: string }; // <--- TELA DO CRONÔMETRO
-  CompleteActivity: { activityId: string }; // <--- TELA DO FORMULÁRIO FINAL
+  ActiveFocus: { activityId: string };
+  CompleteActivity: { activityId: string };
   Shop: undefined;
   EditProfile: undefined;
 };

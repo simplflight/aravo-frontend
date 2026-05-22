@@ -68,7 +68,7 @@ api.interceptors.response.use(
         
         if (!refreshToken) throw new Error('Refresh token não encontrado');
 
-        // Chama o refresh usando o axios puro para não cair neste mesmo interceptor
+        // Chama o refresh usando o axios puro para não cair nesse mesmo interceptor
         const { data } = await axios.post<TokenResponse>(`${API_BASE_URL}/users/refresh`, {
           refreshToken,
         });
