@@ -41,18 +41,27 @@ export function ActivitiesScreen() {
       </View>
       
       <FlashList<Activity>
-        data={activities}
-        renderItem={({ item }) => <ActivityCard activity={item} />}
-        keyExtractor={(item: Activity) => item.id}
-        // @ts-expect-error - Tipagem do FlashList pendente de atualização para React 19
-        estimatedItemSize={100} 
-        contentContainerStyle={styles.listContent}
-        refreshing={isRefetching}
-        onRefresh={refetch}
-        ListEmptyComponent={
-          <Text style={styles.emptyText}>Ainda não tens atividades registadas.</Text>
-        }
-      />
+          data={activities}
+          keyExtractor={(item: Activity) => item.id}
+          // @ts-expect-error - Tipagem do FlashList
+          estimatedItemSize={120} 
+          contentContainerStyle={styles.listContent}
+          refreshing={isRefetching}
+          onRefresh={refetch}
+          ListEmptyComponent={
+            <Text style={styles.emptyText}>Ainda não tens atividades registadas.</Text>
+          }
+          renderItem={({ item }) => (
+            <ActivityCard 
+              activity={item} 
+              // Ao clicar no cartão, vamos para os Detalhes da Atividade
+              onPress={() => navigation.navigate('ActivityDetails', { activityId: item.id })}
+              
+              // Ao clicar no botão vermelho/roxo de finalizar, saltamos direto para o ecrã de preencher o título/xp!
+              onFinishPress={() => navigation.navigate('CompleteActivity', { activityId: item.id })}
+            />
+          )}
+        />
     </View>
   );
 }

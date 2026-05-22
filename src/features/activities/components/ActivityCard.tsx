@@ -6,9 +6,10 @@ import { Colors } from '../../../constants/colors';
 interface ActivityCardProps {
   activity: Activity;
   onPress?: () => void;
+  onFinishPress?: () => void; // Nova ação para finalizar tarefas em andamento
 }
 
-export function ActivityCard({ activity, onPress }: ActivityCardProps) {
+export function ActivityCard({ activity, onPress, onFinishPress }: ActivityCardProps) {
   const isCompleted = activity.status === 'COMPLETED';
   const isInProgress = activity.status === 'IN_PROGRESS';
 
@@ -28,9 +29,27 @@ export function ActivityCard({ activity, onPress }: ActivityCardProps) {
         </View>
       </View>
       
-      {isCompleted && activity.pointsEarned ? (
-        <Text style={styles.points}>+{activity.pointsEarned} XP</Text>
-      ) : null}
+      {/* Mostra o Título se existir, caso contrário mostra um texto padrão */}
+      <Text style={styles.title}>
+        {activity.title ? activity.title : (isInProgress ? 'Foco em andamento...' : 'Sem título')}
+      </Text>
+
+      <View style={styles.footer}>
+        {isCompleted && activity.pointsEarned ? (
+          <Text style={styles.points}>+{activity.pointsEarned} XP</Text>
+        ) : <View />}
+
+        {/* Botão de segurança para tarefas presas em IN_PROGRESS */}
+        {isInProgress && onFinishPress && (
+          <TouchableOpacity 
+            style={styles.finishButton} 
+            onPress={onFinishPress}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.finishButtonText}>Finalizar Foco</Text>
+          </TouchableOpacity>
+        )}
+      </View>
     </TouchableOpacity>
   );
 }
@@ -55,9 +74,15 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   category: {
-    fontSize: 16,
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: Colors.textSecondary,
+  },
+  title: {
+    fontSize: 18,
     fontWeight: 'bold',
     color: Colors.text,
+    marginBottom: 12,
   },
   badge: {
     paddingHorizontal: 8,
@@ -72,10 +97,25 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: Colors.textSecondary,
   },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   points: {
     fontSize: 14,
     fontWeight: 'bold',
     color: Colors.success,
-    marginTop: 8,
+  },
+  finishButton: {
+    backgroundColor: Colors.primary,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 8,
+  },
+  finishButtonText: {
+    color: Colors.surface,
+    fontSize: 12,
+    fontWeight: 'bold',
   },
 });
