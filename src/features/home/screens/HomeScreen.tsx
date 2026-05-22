@@ -31,7 +31,14 @@ export function HomeScreen() {
       const d = new Date();
       d.setDate(d.getDate() - i);
       
-      const dateStr = d.toISOString().split('T')[0]; // "YYYY-MM-DD"
+      // A CORREÇÃO: Extração segura do fuso horário local
+      const year = d.getFullYear();
+      // O getMonth() começa no 0 (Janeiro), por isso somamos 1. O padStart garante o "0" na frente de números < 10.
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      
+      const dateStr = `${year}-${month}-${day}`; // "YYYY-MM-DD" local e blindado!
+
       // Pega a primeira letra do dia da semana (S, T, Q...)
       const dayName = d.toLocaleDateString('pt-BR', { weekday: 'short' }).charAt(0).toUpperCase();
 
