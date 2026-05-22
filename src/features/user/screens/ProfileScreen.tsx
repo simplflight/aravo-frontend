@@ -16,9 +16,12 @@ export function ProfileScreen() {
 
   if (!user) return null;
 
-  // Função simples para pegar as iniciais do nome (Ex: "Felipe Macedo" -> "FM")
-  const getInitials = (name: string) => {
-    const names = name.split(' ');
+  const getInitials = (name?: string) => {
+    if (!name || name.trim().length === 0) return 'US'; // Fallback para (US)er
+    
+    // Divide por qualquer quantidade de espaços e remove espaços em branco extras
+    const names = name.trim().split(/\s+/); 
+    
     if (names.length >= 2) {
       return `${names[0][0]}${names[names.length - 1][0]}`.toUpperCase();
     }
