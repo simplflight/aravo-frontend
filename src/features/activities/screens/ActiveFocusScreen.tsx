@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Alert } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, StyleSheet, Alert, AppState, AppStateStatus } from 'react-native';
 import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -22,6 +22,10 @@ export function ActiveFocusScreen() {
 
   const [seconds, setSeconds] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+
+  const startTimeRef = useRef<number>(Date.now());
+  const totalAccumulatedRef = useRef<number>(0);
+  const appState = useRef(AppState.currentState);
 
   // Mutação silenciosa para apagar a atividade no backend caso seja abandonada
   const { mutate: deleteActivity } = useMutation({
@@ -69,12 +73,38 @@ export function ActiveFocusScreen() {
   // Efeito simples de Cronômetro
   useEffect(() => {
     let interval: NodeJS.Timeout;
+    
     if (!isPaused) {
+      // Reinicia a referência de tempo sempre que o cronômetro é "despausado"
+      startTimeRef.current = Date.now();
       interval = setInterval(() => {
-        setSeconds((prev) => prev + 1);
+        const now = Date.now();
+        const deltaSeconds = Math.floor((now - startTimeRef.current) / 1000);
+        setSeconds(totalAccumulatedRef.current + deltaSeconds);
       }, 1000);
+    } else {
+      // Quando pausa, acumula o tempo que já passou
+      totalAccumulatedRef.current = seconds;
     }
+    
     return () => clearInterval(interval);
+  }, [isPaused]); // Removida a dependência de seconds para evitar re-renders desnecessários do useEffect
+
+  // Ouve mudanças de estado do app (background/foreground)
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', (nextAppState: AppStateStatus) => {
+      if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+        if (!isPaused) {
+          // Recalcula o tempo instantaneamente quando o app volta à tela
+          const now = Date.now();
+          const deltaSeconds = Math.floor((now - startTimeRef.current) / 1000);
+          setSeconds(totalAccumulatedRef.current + deltaSeconds);
+        }
+      }
+      appState.current = nextAppState;
+    });
+
+    return () => subscription.remove();
   }, [isPaused]);
 
   // Formata os segundos para MM:SS
