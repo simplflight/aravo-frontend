@@ -57,7 +57,7 @@ export function TopBar() {
 
       {/* Modal Dropdown Transparente */}
       <Modal visible={menuVisible} transparent animationType="fade">
-        <Pressable onPress={() => setMenuVisible(false)}>
+        <Pressable style={{ flex: 1 }} onPress={() => setMenuVisible(false)}>
           <View style={styles.modalOverlay}>
             <Pressable>
               <View style={[styles.dropdown, { top: Math.max(insets.top, 16) + 50 }]}>
@@ -65,7 +65,6 @@ export function TopBar() {
                   <Text style={styles.dropdownIcon}>🛒</Text>
                   <Text style={styles.dropdownText}>Loja de Recompensas</Text>
                 </TouchableOpacity>
-                {/* Aqui poderemos adicionar Ranking, Conquistas, etc no futuro */}
               </View>
             </Pressable>
           </View>
