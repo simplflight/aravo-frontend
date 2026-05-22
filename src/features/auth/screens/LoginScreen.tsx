@@ -94,7 +94,7 @@ export function LoginScreen() {
       style={styles.container} 
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      <Pressable onPress={Keyboard.dismiss}>
+      <Pressable style={{ flex: 1 }} onPress={Keyboard.dismiss}>
         <View style={styles.inner}>
           
           <View style={styles.header}>
