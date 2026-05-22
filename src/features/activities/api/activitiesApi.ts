@@ -17,5 +17,9 @@ export const activitiesApi = {
     // Nova rota de conclusão
     const { data } = await api.post<Activity>(`/activities/${id}/complete`, payload);
     return data;
+  },
+
+  deleteActivity: async (id: string): Promise<void> => {
+    await api.delete(`/activities/${id}`);
   }
 };

@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Alert } from 'react-native';
 import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useMutation, useQueryClient } from '@tanstack/react-query'; 
+
 import { AppStackParamList } from '../../../types/navigation';
 import { Button } from '../../../components/Button/Button';
 import { Colors } from '../../../constants/colors';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { activitiesApi } from '../api/activitiesApi';
 
 type ActiveFocusRouteProp = RouteProp<AppStackParamList, 'ActiveFocus'>;
 type ActiveFocusNavProp = NativeStackNavigationProp<AppStackParamList>;
@@ -15,14 +18,24 @@ export function ActiveFocusScreen() {
   const navigation = useNavigation<ActiveFocusNavProp>();
   const { activityId } = route.params;
   const insets = useSafeAreaInsets();
+  const queryClient = useQueryClient();
 
   const [seconds, setSeconds] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
+  // Mutação silenciosa para apagar a atividade no backend caso seja abandonada
+  const { mutate: deleteActivity } = useMutation({
+    mutationFn: (id: string) => activitiesApi.deleteActivity(id),
+    onSuccess: () => {
+      // Assim que o servidor confirmar a exclusão, invalidamos a lista de atividades.
+      queryClient.invalidateQueries({ queryKey: ['activities'] });
+    }
+  });
+
   // SEQUESTRA A AÇÃO DE VOLTAR
   useEffect(() => {
     const unsubscribe = navigation.addListener('beforeRemove', (e) => {
-      // Se a ação for um "replace" (ou seja, ele clicou no nosso botão de Finalizar e preencher o formulário), nós permitimos!
+      // Se a ação for um "replace" (ou seja, ele clicou no nosso botão de Finalizar), nós permitimos!
       if (e.data.action.type === 'REPLACE') {
         return;
       }
@@ -32,21 +45,26 @@ export function ActiveFocusScreen() {
 
       Alert.alert(
         'Abandonar Foco?',
-        'Tens a certeza que queres sair? O progresso não será salvo e a atividade será perdida.',
+        'Tem a certeza que quer sair? A atividade será cancelada e removida.',
         [
           { text: 'Continuar Focado', style: 'cancel', onPress: () => {} },
           {
             text: 'Abandonar',
             style: 'destructive',
-            // Se ele quiser mesmo sair, despachamos a ação original que ele tentou fazer
-            onPress: () => navigation.dispatch(e.data.action),
+            onPress: () => {
+              // 1. Dispara a API para apagar a tarefa "fantasma"
+              deleteActivity(activityId);
+              
+              // 2. Liberta a navegação para o ecrã anterior imediatamente
+              navigation.dispatch(e.data.action);
+            },
           },
         ]
       );
     });
 
     return unsubscribe;
-  }, [navigation]);
+  }, [navigation, activityId, deleteActivity]);
 
   // Efeito simples de Cronômetro
   useEffect(() => {
@@ -68,7 +86,7 @@ export function ActiveFocusScreen() {
 
   const handleFinish = () => {
     // O utilizador terminou! Navegamos para a tela de preencher o Título/Descrição.
-    // Usamos 'replace' para que ele não consiga voltar para o cronômetro apertando o botão de voltar do Android.
+    // Usamos 'replace' para que ele não consiga voltar para o cronômetro apertando voltar.
     navigation.replace('CompleteActivity', { activityId });
   };
 
