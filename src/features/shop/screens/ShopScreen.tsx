@@ -26,26 +26,39 @@ export function ShopScreen() {
 
   // Mutação de Compra
   const buyMutation = useMutation({
-    mutationFn: (itemId: string) => shopApi.buyItem(itemId),
-    onSuccess: (_, itemId) => {
-      // Magia do Zustand: Se comprou com sucesso, nós descontamos o XP imediatamente no Frontend
-      // para não precisarmos fazer uma nova requisição ao /users/me !
-      const purchasedItem = items?.find(i => i.id === itemId);
-      if (user && purchasedItem) {
-        setUser({
-          ...user,
-          points: user.points - purchasedItem.price
-        });
-        Alert.alert('Compra realizada!', `Você adquiriu ${purchasedItem.name}.`);
-      }
-    },
-    onError: () => {
-      Alert.alert('Erro', 'Não foi possível completar a transação.');
-    },
-    onSettled: () => {
-      setBuyingId(null);
+  mutationFn: (itemId: string) => shopApi.buyItem(itemId),
+  onMutate: async (itemId) => {
+    // Para mutações assíncronas do React Query, garantimos que não há conflitos
+    const purchasedItem = items?.find(i => i.id === itemId);
+    if (!user || !purchasedItem) return { previousUser: user };
+
+    const previousUser = { ...user }; // Guarda estado anterior
+
+    // Atualização Otimista Imediata da UI
+    setUser({
+      ...user,
+      points: user.points - purchasedItem.price
+    });
+    
+    // Retorna o contexto para caso precisemos fazer rollback
+    return { previousUser };
+  },
+  onError: (err, itemId, context) => {
+    // Rollback silencioso caso a API falhe (ex: sem internet)
+    if (context?.previousUser) {
+      setUser(context.previousUser);
     }
-  });
+    Alert.alert('Falha na transação', 'A sua compra não pôde ser completada e o XP foi devolvido.');
+  },
+  onSuccess: (_, itemId) => {
+    const purchasedItem = items?.find(i => i.id === itemId);
+    // Feedback visual suave sem atrasar a UI
+    Alert.alert('Compra realizada!', `Você adquiriu ${purchasedItem?.name}.`);
+  },
+  onSettled: () => {
+    setBuyingId(null);
+  }
+});
 
   const handleBuy = (item: Item) => {
     if (!user || user.points < item.price) return;
