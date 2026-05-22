@@ -34,10 +34,13 @@ export function CompleteActivityScreen() {
   const { mutateAsync: completeActivity, isPending } = useMutation<Activity, Error, ActivityCompleteRequest>({
     mutationFn: (payload) => activitiesApi.completeActivity(activityId, payload),
     onSuccess: (completedActivity) => {
-      // 1. Invalida a lista para forçar o recarregamento na tela de atividades
+      // 1. Invalida a lista de atividades
       queryClient.invalidateQueries({ queryKey: ['activities'] });
 
-      // 2. A MÁGICA DO XP: Soma os pontos ganhos ao saldo atual no Zustand!
+      // 2. Força a Home a buscar os dados novos de Streak!
+      queryClient.invalidateQueries({ queryKey: ['streak'] });
+
+      // 3. Atualiza os pontos no Zustand
       if (user && completedActivity.pointsEarned) {
         setUser({
           ...user,
