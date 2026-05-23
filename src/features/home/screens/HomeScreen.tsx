@@ -21,7 +21,7 @@ export function HomeScreen() {
   const currentMonth = todayDate.getMonth() + 1;
   const currentYear = todayDate.getFullYear();
 
-  // Chama o nosso hook inteligente
+  // Chama o hook
   const { data: streakData, isLoading } = useStreakCalendar(currentMonth, currentYear);
 
   // Algoritmo que constrói os últimos 7 dias baseados na resposta da API
@@ -31,7 +31,7 @@ export function HomeScreen() {
       const d = new Date();
       d.setDate(d.getDate() - i);
       
-      // A CORREÇÃO: Extração segura do fuso horário local
+      // Extração segura do fuso horário local
       const year = d.getFullYear();
       // O getMonth() começa no 0 (Janeiro), por isso somamos 1. O padStart garante o "0" na frente de números < 10.
       const month = String(d.getMonth() + 1).padStart(2, '0');
@@ -56,7 +56,7 @@ export function HomeScreen() {
 
   if (!user) return null;
 
-  // Mock provisório para as missões (conforme solicitado)
+  // Mock provisório para as missões
   const dailyQuests = [
     { id: 1, title: 'Primeiro Passo', desc: 'Inicie 1 sessão de foco hoje', progress: 0, total: 1, xp: 15 },
     { id: 2, title: 'Consistência Brutal', desc: 'Ganhe 50 XP no total hoje', progress: 20, total: 50, xp: 50 },
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   dayCircleActive: {
-    backgroundColor: Colors.status.warningBg, // Fundo dourado suave para o fogo aceso
+    backgroundColor: Colors.status.warningBg,
     borderWidth: 1,
     borderColor: Colors.status.warningBorder,
   },
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   dayTextActive: {
-    fontSize: 18, // Pro fogo ficar maior
+    fontSize: 18,
   },
   dayTextInactive: {
     color: Colors.textSecondary,

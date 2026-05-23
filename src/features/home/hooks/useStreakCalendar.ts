@@ -12,7 +12,7 @@ export function useStreakCalendar(month: number, year: number) {
     queryFn: () => streakApi.getCalendar(month, year),
   });
 
-  // Sincronizador de Estado: A mágica da Lazy Evaluation
+  // Sincronizador de Estado: Lazy Evaluation
   useEffect(() => {
     if (query.data && user) {
       if (query.data.currentStreak !== user.streak) {

@@ -6,7 +6,7 @@ import { Colors } from '../../../constants/colors';
 interface ActivityCardProps {
   activity: Activity;
   onPress?: () => void;
-  onFinishPress?: () => void; // Nova ação para finalizar tarefas em andamento
+  onFinishPress?: () => void;
 }
 
 export function ActivityCard({ activity, onPress, onFinishPress }: ActivityCardProps) {

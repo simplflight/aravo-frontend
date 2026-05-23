@@ -36,7 +36,7 @@ export function ProfileScreen() {
         logout();
       }
     } else {
-      // SE ESTIVER NO MOBILE (Android/iOS): Usa o Alerta nativo lindão
+      // SE ESTIVER NO MOBILE (Android/iOS): Usa o Alerta nativo
       Alert.alert(
         "Sair da conta",
         "Tem a certeza que deseja sair do Aravo?",
@@ -94,7 +94,7 @@ export function ProfileScreen() {
           <Button 
             title="Editar Perfil" 
             variant="outline" 
-            onPress={() => navigation.navigate('EditProfile')} // Redireciona para o modal real!
+            onPress={() => navigation.navigate('EditProfile')} // Redireciona para o modal real
             style={styles.actionButton}
           />
 
@@ -103,7 +103,7 @@ export function ProfileScreen() {
             variant="outline" 
             onPress={handleLogout} 
             style={[styles.actionButton, styles.logoutButton]}
-            // Usamos um truque de estilo inline temporário para deixar a borda vermelha
+            // Usa um truque de estilo inline temporário para deixar a borda vermelha
           />
         </View>
 

@@ -63,14 +63,12 @@ export function LoginScreen() {
 
     try {
       // 1. Requisita os tokens
-      // O DTO do backend v1.1.0 (UserLoginRequest) espera { email, password }
       const { data: tokens } = await api.post<TokenResponse>('/users/login', {
         identifier: email, 
         password,
       });
 
       // 2. Com o token em mãos, busca os dados do usuário.
-      // Injetamos o token no header manualmente aqui pois ele ainda não está no Zustand
       const { data: user } = await api.get<User>('/users/me', {
         headers: { Authorization: `Bearer ${tokens.accessToken}` }
       });
@@ -187,7 +185,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 16,
     padding: 12,
-    backgroundColor: '#FFEAA7', // Um fundo de alerta amarelo suave
+    backgroundColor: '#FFEAA7',
     borderRadius: 8,
   },
 });

@@ -57,7 +57,7 @@ function ShopItemCardComponent({ item, canAfford, isBuying, onBuy }: ShopItemCar
   );
 }
 
-// Otimização Tier 1: Função de comparação para garantir que re-renders 
+// Função de comparação para garantir que re-renders 
 // ocorram apenas se o status de compra ou poder de compra mudar.
 export const ShopItemCard = memo(ShopItemCardComponent, (prev, next) => {
   return (

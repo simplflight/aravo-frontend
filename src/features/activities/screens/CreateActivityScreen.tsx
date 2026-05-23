@@ -29,7 +29,6 @@ export function CreateActivityScreen() {
   const handleStart = async () => {
     setError(undefined);
     try {
-      // Usamos a função de mutação que agora chama /start
       const newActivity = await createActivity(selectedCategory);
       
       // Substitui o modal pela tela do Cronômetro!

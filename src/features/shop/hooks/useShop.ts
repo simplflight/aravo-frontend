@@ -45,7 +45,7 @@ export function useShop() {
     onSuccess: (_, itemId) => {
       const purchasedItem = query.data?.find(i => i.id === itemId);
       Alert.alert('Compra realizada!', `Você adquiriu ${purchasedItem?.name}.`);
-      // Opcional: Invalidar inventário se existir uma query para isso
+      // Invalida inventário (futuro)
       queryClient.invalidateQueries({ queryKey: ['inventory'] });
     },
     onSettled: () => {

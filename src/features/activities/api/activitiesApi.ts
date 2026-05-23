@@ -8,7 +8,6 @@ export const activitiesApi = {
   },
 
   startActivity: async (category: ActivityCategory): Promise<Activity> => {
-    // Atualizado para a nova rota /start
     const { data } = await api.post<Activity>('/activities/start', { category });
     return data;
   },
