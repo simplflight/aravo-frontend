@@ -5,7 +5,6 @@ import { Activity, ActivityCategory } from '../../../types/activity';
 export function useCreateActivity() {
   const queryClient = useQueryClient();
 
-  // Passamos explicitamente os tipos: 
   // 1º Dado retornado (Activity) | 2º Tipo do Erro (Error) | 3º Variável de entrada (ActivityCategory)
   return useMutation<Activity, Error, ActivityCategory>({
     mutationFn: (category: ActivityCategory) => activitiesApi.startActivity(category),

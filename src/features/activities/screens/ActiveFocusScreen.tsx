@@ -39,12 +39,12 @@ export function ActiveFocusScreen() {
   // SEQUESTRA A AÇÃO DE VOLTAR
   useEffect(() => {
     const unsubscribe = navigation.addListener('beforeRemove', (e) => {
-      // Se a ação for um "replace" (ou seja, ele clicou no nosso botão de Finalizar), nós permitimos!
+      // Se a ação for um "replace" (ou seja, o usuário clicou no nosso botão de Finalizar), é permitida
       if (e.data.action.type === 'REPLACE') {
         return;
       }
 
-      // Caso contrário (deslizou a tela ou apertou voltar no celular), bloqueamos a ação.
+      // Caso contrário (deslizou a tela ou apertou voltar no celular), bloqueia a ação.
       e.preventDefault();
 
       Alert.alert(
@@ -88,7 +88,7 @@ export function ActiveFocusScreen() {
     }
     
     return () => clearInterval(interval);
-  }, [isPaused]); // Removida a dependência de seconds para evitar re-renders desnecessários do useEffect
+  }, [isPaused]);
 
   // Ouve mudanças de estado do app (background/foreground)
   useEffect(() => {
@@ -115,8 +115,6 @@ export function ActiveFocusScreen() {
   };
 
   const handleFinish = () => {
-    // O utilizador terminou! Navegamos para a tela de preencher o Título/Descrição.
-    // Usamos 'replace' para que ele não consiga voltar para o cronômetro apertando voltar.
     navigation.replace('CompleteActivity', { activityId });
   };
 
@@ -146,13 +144,37 @@ export function ActiveFocusScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: Colors.background, alignItems: 'center', justifyContent: 'center', padding: 24 },
-  headerTitle: { fontSize: 20, color: Colors.textSecondary, marginBottom: 48 },
-  timerContainer: { 
-    width: 250, height: 250, borderRadius: 125, borderWidth: 8, borderColor: Colors.primary,
-    alignItems: 'center', justifyContent: 'center', marginBottom: 64 
+  container: { 
+    flex: 1, 
+    backgroundColor: Colors.background, 
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    padding: 24
   },
-  timerText: { fontSize: 56, fontWeight: 'bold', color: Colors.text },
-  controls: { flexDirection: 'row', justifyContent: 'space-between', width: '100%' },
+  headerTitle: { 
+    fontSize: 20, 
+    color: Colors.textSecondary, 
+    marginBottom: 48 
+  },
+  timerContainer: { 
+    width: 250, 
+    height: 250, 
+    borderRadius: 125, 
+    borderWidth: 8, 
+    borderColor: Colors.primary,
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    marginBottom: 64 
+  },
+  timerText: { 
+    fontSize: 56, 
+    fontWeight: 'bold', 
+    color: Colors.text 
+  },
+  controls: { 
+    flexDirection: 'row', 
+    justifyContent: 'space-between',
+    width: '100%' 
+  },
   controlButton: { width: '48%' }
 });

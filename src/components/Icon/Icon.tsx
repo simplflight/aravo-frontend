@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 });
 
 /**
- * Dicionário de mapeamento das iconKeys vindas da API Aravo (Spring Boot).
+ * Dicionário de mapeamento das iconKeys vindas da API
  */
 const ICON_DICTIONARY: Record<string, React.ReactNode> = {
   'icon-potion': <View style={[styles.placeholder, styles.potion]} />,
@@ -37,8 +37,8 @@ interface IconProps {
 }
 
 /**
- * Componente responsável por renderizar ícones baseados na resposta do backend.
- * @param {string} iconKey - Chave do ícone vinda do DTO do backend.
+ * Componente responsável por renderizar ícones baseados na resposta do backend
+ * @param {string} iconKey - Chave do ícone vinda do DTO do backend
  * @param {number} [size=24] - Tamanho opcional do ícone.
  */
 export function Icon({ iconKey, size = 24 }: IconProps) {

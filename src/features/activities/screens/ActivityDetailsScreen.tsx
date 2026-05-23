@@ -19,7 +19,7 @@ export function ActivityDetailsScreen() {
   const insets = useSafeAreaInsets();
   const { activityId } = route.params;
 
-  // Performance máxima: busca a atividade direto do cache do TanStack Query sem ir à rede!
+  // Performance máxima: busca a atividade direto do cache do TanStack Query sem ir à rede
   const activities = queryClient.getQueryData<Activity[]>(['activities']);
   const activity = activities?.find((a) => a.id === activityId);
 
@@ -42,7 +42,6 @@ export function ActivityDetailsScreen() {
       >
         <Text style={styles.categoryLabel}>{activity.category}</Text>
         
-        {/* Lembre-se que o título só aparecerá após atualizar o DTO no Java */}
         <Text style={styles.title}>{activity.title || 'Sem título'}</Text>
         
         <View style={styles.divider} />
@@ -80,23 +79,83 @@ export function ActivityDetailsScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: Colors.background },
-  center: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 24 },
+  container: { 
+    flex: 1, 
+    backgroundColor: Colors.background 
+  },
+  center: { 
+    flex: 1, 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    padding: 24 
+  },
   scrollContent: { padding: 24 },
-  categoryLabel: { fontSize: 14, fontWeight: 'bold', color: Colors.primary, textTransform: 'uppercase', letterSpacing: 1 },
-  title: { fontSize: 28, fontWeight: 'bold', color: Colors.text, marginTop: 8 },
-  divider: { height: 1, backgroundColor: Colors.border, marginVertical: 20 },
+  categoryLabel: { 
+    fontSize: 14, 
+    fontWeight: 'bold', 
+    color: Colors.primary, 
+    textTransform: 'uppercase', 
+    letterSpacing: 1 
+  },
+  title: { 
+    fontSize: 28, 
+    fontWeight: 'bold', 
+    color: Colors.text, 
+    marginTop: 8 
+  },
+  divider: { 
+    height: 1, 
+    backgroundColor: Colors.border, 
+    marginVertical: 20 
+  },
   
-  infoCard: { backgroundColor: Colors.surface, borderRadius: 16, padding: 16, borderWidth: 1, borderColor: Colors.border, marginBottom: 24 },
-  infoRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 8 },
-  label: { fontSize: 15, color: Colors.textSecondary, fontWeight: '500' },
-  statusValue: { fontSize: 15, fontWeight: 'bold', color: Colors.text },
-  xpValue: { fontSize: 15, fontWeight: 'bold', color: Colors.success },
+  infoCard: { 
+    backgroundColor: Colors.surface, 
+    borderRadius: 16, 
+    padding: 16, 
+    borderWidth: 1, 
+    borderColor: Colors.border, 
+    marginBottom: 24 
+  },
+  infoRow: { 
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
+    alignItems: 'center', 
+    paddingVertical: 8 
+  },
+  label: { 
+    fontSize: 15, 
+    color: Colors.textSecondary, 
+    fontWeight: '500' 
+  },
+  statusValue: { 
+    fontSize: 15, 
+    fontWeight: 'bold', 
+    color: Colors.text 
+  },
+  xpValue: { 
+    fontSize: 15, 
+    fontWeight: 'bold', 
+    color: Colors.success 
+  },
   
   section: { marginBottom: 32 },
-  sectionTitle: { fontSize: 18, fontWeight: 'bold', color: Colors.text, marginBottom: 8 },
-  descriptionText: { fontSize: 15, color: Colors.textSecondary, lineHeight: 22 },
+  sectionTitle: { 
+    fontSize: 18, 
+    fontWeight: 'bold', 
+    color: Colors.text,
+    marginBottom: 8 
+  },
+  descriptionText: { 
+    fontSize: 15,
+    color: Colors.textSecondary, 
+    lineHeight: 22 
+  },
   
   backButton: { marginTop: 16 },
-  errorText: { fontSize: 16, color: Colors.error, marginBottom: 16 }
+  errorText: { 
+    fontSize: 16, 
+    color: Colors.error, 
+    marginBottom: 16 
+  }
 });

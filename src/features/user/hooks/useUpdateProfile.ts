@@ -10,7 +10,7 @@ export function useUpdateProfile() {
   return useMutation<User, Error, UserUpdateRequest>({
     mutationFn: (payload) => userApi.updateProfile(payload),
     onSuccess: (updatedUser) => {
-      // Sincronização mágica: Atualiza o Zustand com o novo Nome e Nickname devolvidos pela API
+      // Atualiza o Zustand com o novo Nome e Nickname devolvidos pela API
       if (user) {
         setUser({
           ...user,

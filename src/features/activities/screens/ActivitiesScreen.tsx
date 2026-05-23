@@ -57,7 +57,7 @@ export function ActivitiesScreen() {
               // Ao clicar no cartão, vamos para os Detalhes da Atividade
               onPress={() => navigation.navigate('ActivityDetails', { activityId: item.id })}
               
-              // Ao clicar no botão vermelho/roxo de finalizar, saltamos direto para o ecrã de preencher o título/xp!
+              // Ao clicar no botão vermelho/roxo de finalizar, saltamos direto para o ecrã de preencher o título/xp
               onFinishPress={() => navigation.navigate('CompleteActivity', { activityId: item.id })}
             />
           )}
@@ -81,7 +81,6 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
     color: Colors.text,
-    // Os paddings foram removidos daqui, pois o 'header' já faz esse trabalho!
   },
   header: { 
     flexDirection: 'row', 

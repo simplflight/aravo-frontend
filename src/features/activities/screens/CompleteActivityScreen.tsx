@@ -22,7 +22,6 @@ export function CompleteActivityScreen() {
   const queryClient = useQueryClient();
   const { activityId } = route.params;
 
-  // Trazemos o utilizador e a função de atualizar do nosso Zustand
   const user = useAuthStore((state) => state.user);
   const setUser = useAuthStore((state) => state.setUser);
 

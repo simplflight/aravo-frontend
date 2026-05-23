@@ -98,5 +98,5 @@ const styles = StyleSheet.create({
   subtitle: { fontSize: 16, color: Colors.textSecondary, marginBottom: 32, marginTop: 4 },
   form: { width: '100%', flex: 1 },
   saveButton: { marginTop: 'auto', marginBottom: 12 },
-  globalErrorText: { color: Colors.error, fontSize: 14, fontWeight: 'bold', textAlign: 'center', marginBottom: 16, padding: 12, backgroundColor: '#FFEBEB', borderRadius: 8 },
+  globalErrorText: { color: Colors.error, fontSize: 14, fontWeight: 'bold', textAlign: 'center', marginBottom: 16, padding: 12, backgroundColor: Colors.status.errorBg, borderRadius: 8 },
 });

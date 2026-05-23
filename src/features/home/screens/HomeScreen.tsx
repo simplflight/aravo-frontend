@@ -21,7 +21,7 @@ export function HomeScreen() {
   const currentMonth = todayDate.getMonth() + 1;
   const currentYear = todayDate.getFullYear();
 
-  // Chama o nosso hook inteligente
+  // Chama o hook
   const { data: streakData, isLoading } = useStreakCalendar(currentMonth, currentYear);
 
   // Algoritmo que constrói os últimos 7 dias baseados na resposta da API
@@ -31,7 +31,7 @@ export function HomeScreen() {
       const d = new Date();
       d.setDate(d.getDate() - i);
       
-      // A CORREÇÃO: Extração segura do fuso horário local
+      // Extração segura do fuso horário local
       const year = d.getFullYear();
       // O getMonth() começa no 0 (Janeiro), por isso somamos 1. O padStart garante o "0" na frente de números < 10.
       const month = String(d.getMonth() + 1).padStart(2, '0');
@@ -56,7 +56,7 @@ export function HomeScreen() {
 
   if (!user) return null;
 
-  // Mock provisório para as missões (conforme solicitado)
+  // Mock provisório para as missões
   const dailyQuests = [
     { id: 1, title: 'Primeiro Passo', desc: 'Inicie 1 sessão de foco hoje', progress: 0, total: 1, xp: 15 },
     { id: 2, title: 'Consistência Brutal', desc: 'Ganhe 50 XP no total hoje', progress: 20, total: 50, xp: 50 },
@@ -188,9 +188,9 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   dayCircleActive: {
-    backgroundColor: '#FFEAA7', // Fundo dourado suave para o fogo aceso
+    backgroundColor: Colors.status.warningBg,
     borderWidth: 1,
-    borderColor: '#F1C40F',
+    borderColor: Colors.status.warningBorder,
   },
   dayCircleInactive: {
     backgroundColor: Colors.background,
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   dayTextActive: {
-    fontSize: 18, // Pro fogo ficar maior
+    fontSize: 18,
   },
   dayTextInactive: {
     color: Colors.textSecondary,
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     paddingRight: 8,
   },
   xpBadge: {
-    backgroundColor: '#E0E7FF',
+    backgroundColor: Colors.status.inProgressBg,
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 12,
@@ -282,13 +282,13 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   dayCircleCompleted: { 
-    backgroundColor: '#FFEAA7', 
+    backgroundColor: Colors.status.warningBg, 
     borderWidth: 1, 
-    borderColor: '#F1C40F' 
+    borderColor: Colors.status.warningBorder 
   }, 
   dayCircleFrozen: { 
-    backgroundColor: '#E0F7FA', 
+    backgroundColor: Colors.status.infoBg, 
     borderWidth: 1, 
-    borderColor: '#00BCD4' 
+    borderColor: Colors.status.infoBorder
   },
 });
