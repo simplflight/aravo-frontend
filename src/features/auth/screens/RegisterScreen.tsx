@@ -79,7 +79,7 @@ export function RegisterScreen() {
     } catch (error) {
       const axiosError = error as AxiosError<StandardError>;
       const backendMessage = axiosError.response?.data?.message;
-      setGlobalError(backendMessage || 'Erro ao criar conta. Verifique a sua ligação.');
+      setGlobalError(backendMessage || 'Erro ao criar conta. Verifique a sua conexão.');
     } finally {
       setIsLoading(false);
     }

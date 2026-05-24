@@ -81,7 +81,7 @@ export function LoginScreen() {
       // Se o backend enviar uma mensagem traduzida pelo messages.properties, nós a exibimos.
       // Caso contrário, exibimos uma mensagem genérica (ex: servidor offline).
       const backendMessage = axiosError.response?.data?.message;
-      setGlobalError(backendMessage || 'Ocorreu um erro ao tentar acessar. Tente novamente.');
+      setGlobalError(backendMessage || 'Ocorreu um erro ao tentar logar. Tente novamente.');
     } finally {
       setIsLoading(false);
     }
