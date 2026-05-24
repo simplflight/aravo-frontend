@@ -3,6 +3,7 @@ import { StorageUtil } from '../utils/storage';
 import { StandardError } from '../types/api';
 import { useAuthStore } from '../store/useAuthStore';
 import { TokenResponse } from '../types/auth';
+import { sanitizePayload } from '../utils/sanitizer';
 
 const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL || 'http://192.168.1.100:8080/api';
 
@@ -34,6 +35,10 @@ api.interceptors.request.use(
     
     if (config.headers) {
       config.headers['Accept-Language'] = language;
+    }
+
+    if (config.data) {
+      config.data = sanitizePayload(config.data);
     }
     
     return config;
