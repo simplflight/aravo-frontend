@@ -5,22 +5,28 @@
 export const Colors = {
   primary: '#6C63FF', // Roxo moderno (Ação principal)
   primaryDark: '#534BCE',
+  primaryLight: '#E0E7FF',
+  
   background: '#F8F9FA', // Fundo claro e limpo
   surface: '#FFFFFF', // Fundo de cards e inputs
+  
   text: '#2D3436', // Texto principal
   textSecondary: '#636E72', // Texto de apoio
-  error: '#D63031', // Vermelho para mensagens de erro da API
+  
   border: '#DFE6E9', // Bordas sutis
+  
   success: '#00B894', // Verde para sucesso
-  status: {
-    successBg: '#E3FBE3',
-    inProgressBg: '#E0E7FF',
-    errorBg: '#FFEBEB',
-    warningBg: '#FFEAA7',
-    warningBorder: '#F1C40F',
-    infoBg: '#E0F7FA',
-    infoBorder: '#00BCD4',
-    disabledBg: '#F8F9FA',
-    disabledBorder: '#E9ECEF'
-  }
+  successLight: '#E3FBE3',
+  
+  error: '#D63031', // Vermelho para mensagens de erro da API
+  errorLight: '#FFEBEB',
+  
+  warning: '#F1C40F',
+  warningLight: '#FFEAA7',
+  
+  info: '#00BCD4',
+  infoLight: '#E0F7FA',
+  
+  disabled: '#F8F9FA',
+  disabledBorder: '#E9ECEF',
 };

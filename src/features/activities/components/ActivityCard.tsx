@@ -89,9 +89,9 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     borderRadius: 8,
   },
-  badgeCompleted: { backgroundColor: Colors.status.successBg },
-  badgeInProgress: { backgroundColor: Colors.status.inProgressBg },
-  badgeCancelled: { backgroundColor: Colors.status.errorBg },
+  badgeCompleted: { backgroundColor: Colors.successLight },
+  badgeInProgress: { backgroundColor: Colors.primaryLight },
+  badgeCancelled: { backgroundColor: Colors.errorLight },
   badgeText: {
     fontSize: 10,
     fontWeight: 'bold',

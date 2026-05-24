@@ -79,8 +79,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   cardDisabled: {
-    backgroundColor: Colors.status.disabledBg,
-    borderColor: Colors.status.disabledBorder,
+    backgroundColor: Colors.background,
+    borderColor: Colors.disabledBorder,
   },
   iconContainer: {
     width: 60,
